@@ -1,0 +1,76 @@
+Análise Mall_Customers
+https://www.kaggle.com/shwetabh123/mall-customers
+
+Importação do dataframe
+```{r}
+library(factoextra)
+library(cluster)
+data <- read.csv("customers.csv")
+data
+# Renomeando as colunas do dataframe para melhor visualização
+colnames(data) <- c("ID", "Genre", "Age", "Income", "SpendingScore")
+```
+
+Análise Estatística
+```{r}
+# 112 Mulheres & 88 Homens
+table(data$Genre)
+
+# Média de idades 36
+summary(data$Age)
+
+# Há mais presença de pessoas entre 30 e 50 anos
+boxplot(data$Age)
+
+# Dados estatísticos
+summary(data$Age)
+summary(data$Income)
+#---------------------------------------------------------
+# Agrupando dataframe com somente masculino
+men <- data[data$Genre == "Male",]
+men
+
+sum(men$Income) # Renda total masculina: 5476
+sum(men$SpendingScore) # Gastos totais no estabelecimento: 4269
+median(men$Age) # Idade média masculina no estabelecimento: 37 anos
+median(men$Income) # Média de renda masculina de 62.5k/anuais
+
+# Utilizando Algoritmo de Agrupamento K-medoids para análise aprofundada
+# Gerando um Cluster para visualização de Gastos ~ Idade
+cluster = pam(men[,c(3,5)], k=2)
+g = fviz_cluster(list(data = men[,c(3,5)], cluster = cluster$cluster),
+                 ellipse.type = "norm", ggtheme = theme_bw(),main = "Cluster")
+# Nesse caso,
+# o cluster agrupa as linhas em que se obteve maior gasto na loja e relaciona
+# com a idade do cliente
+plot(g)
+
+cluster$medoids
+# A amostra com idade média de 50 anos tem um Score médio de 26
+# A amostra com idade média de 31 anos tem um Score médio de 73
+# Ou seja, o grupo de menor idade consome mais na loja
+# É possível também especificar os produtos mais consumidos pela população de
+# menor idade, assim como de maior idade
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
