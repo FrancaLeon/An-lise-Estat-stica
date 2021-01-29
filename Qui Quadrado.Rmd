@@ -1,0 +1,28 @@
+Qui - Quadrado
+Criamos o conjunto de dados para teste
+```{r}
+novela = matrix(c(19,6,43,32),nrow=2, byrow=T)
+rownames(novela) = c("Masculino","Feminino")
+colnames(novela) = c("Assiste", "NaoAssiste")
+novela
+```
+H0 = Não existe diferença significativa além do acaso
+Execução Qui - Quadrado
+Valor de p é maior que 0,05 não há evidências de diferença significativa (hipótese nula)
+```{r}
+chisq.test(novela)
+# H0 fica mantido pois p > 0,05
+```
+Alteramos a proporção de homens que assistem ou não
+Executamos novamente, agora com valor com p < 0,05
+```{r}
+novela2 = matrix(c(22,3,43,32),nrow=2,byrow=T)
+rownames(novela2) = c("Masculino", "Feminino")
+colnames(novela2) = c("Assiste", "NaoAssiste")
+novela2
+```
+```{r}
+chisq.test(novela2)
+# Apresenta evidências a favor da hipótese alternativa, que existe diferença significativa.
+```
+

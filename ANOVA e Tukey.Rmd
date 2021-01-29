@@ -1,0 +1,37 @@
+Anova
+Carrega dados
+```{r}
+tratamento = read.csv("anova.csv", sep=";")
+tratamento
+```
+Visualizamos as distribuições dos remédios por horas
+```{r}
+boxplot(tratamento$Horas ~ tratamento$Remedio)
+```
+Executamos Análise de viarância
+Observar valor de p maior que 0,05 (Pr(>F))
+H0: não há diferença significativa
+```{r}
+an = aov(Horas ~ Remedio, data=tratamento)
+summary(an)
+# p = 0.592, não há evidências contra a hipótese nula, logo, segue-se com a hipótese de que não há diferença significativa
+```
+Anova de dois fatores
+H0: nenhum valor de P mostra diferença significativa
+```{r}
+an = aov(Horas ~ Remedio * Sexo, data=tratamento)
+summary(an)
+# Hipótese nula não é rejeitada, pois todos os valores de p são maiores que 0,05
+```
+Se houver diferença o teste de Tukey é executado!
+```{r}
+tukey = TukeyHSD(an)
+tukey
+# Em todas as diferenças o valor de p é alto, logo não há diferença significativa
+```
+Gráficos do teste
+```{r}
+plot(tukey)
+```
+
+
